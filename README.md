@@ -1,69 +1,100 @@
-# Meme Generator 🖼️
+# Meme Generator
+
 A simple React app that pulls meme templates from the Imgflip API and lets you slap custom text on them.
 
-# Why I Built This
+**Live Demo**: [Add your deployed link]
+
+![Screenshot of the app](screenshot.png)
+
+---
+
+## Why I Built This
+
 I'm working through React fundamentals and this project hit several concepts I needed to get comfortable with: managing state across a form, fetching external data on component mount, and handling controlled inputs. It's not a complex app, but it forced me to actually understand how these pieces connect rather than just copying patterns.
-Technical Decisions
-State Structure
-I went with a single state object for the meme data instead of three separate useState calls:
-jsxconst [meme, setMeme] = useState({
+
+## Technical Decisions
+
+### State Structure
+
+I went with a single state object for the meme data instead of three separate `useState` calls:
+
+```jsx
+const [meme, setMeme] = useState({
     topText: "One does not simply",
     bottomText: "Walk into Mordor",
     imageUrl: "http://i.imgflip.com/1bij.jpg"
 })
-This made the update logic cleaner since topText, bottomText, and imageUrl are conceptually one thing—the current meme being edited. The tradeoff is slightly more verbose updates with the spread operator, but it keeps related data together.
-Form Handling
-Rather than writing separate handlers for each input, I used the name attribute to make one handler work for both:
-jsxfunction handleChange(event) {
+```
+
+This made the update logic cleaner since `topText`, `bottomText`, and `imageUrl` are conceptually one thing—the current meme being edited. The tradeoff is slightly more verbose updates with the spread operator, but it keeps related data together.
+
+### Form Handling
+
+Rather than writing separate handlers for each input, I used the `name` attribute to make one handler work for both:
+
+```jsx
+function handleChange(event) {
     const {value, name} = event.currentTarget
     setMeme(prevMeme => ({
         ...prevMeme,
         [name]: value
     }))
 }
-The computed property name [name] was new to me—it lets you dynamically set which property gets updated based on which input fired the event.
-Data Fetching
-The useEffect with an empty dependency array runs once when the component mounts. I store all the meme templates in state, then pick randomly from that array when the user clicks the button. This avoids hitting the API on every click.
-jsxuseEffect(() => {
+```
+
+The computed property name `[name]` was new to me—it lets you dynamically set which property gets updated based on which input fired the event.
+
+### Data Fetching
+
+The `useEffect` with an empty dependency array runs once when the component mounts. I store all the meme templates in state, then pick randomly from that array when the user clicks the button. This avoids hitting the API on every click.
+
+```jsx
+useEffect(() => {
     fetch("https://api.imgflip.com/get_memes")
         .then(res => res.json())
         .then(data => setAllMemes(data.data.memes))
 }, [])
+```
+
 No loading state or error handling here—something I'd add in a production app, but kept it minimal for learning purposes.
-The CSS
+
+## The CSS
+
 The text overlay effect uses absolute positioning on the spans within a relative container. The text shadow creates that classic meme outline:
-csstext-shadow:
+
+```css
+text-shadow:
     2px 2px 0 #000,
     -2px -2px 0 #000,
     2px -2px 0 #000,
     -2px 2px 0 #000,
     /* ... all 8 directions */
+```
+
 This is a common trick—you can't do a true text stroke in CSS that works everywhere, so stacking shadows in every direction fakes it.
-Running Locally
-bashgit clone https://github.com/[your-username]/meme-generator.git
+
+## Running Locally
+
+```bash
+git clone https://github.com/[your-username]/meme-generator.git
 cd meme-generator
 npm install
 npm run dev
-What I'd Do Differently
+```
+
+## What I'd Do Differently
+
 If I revisited this, I'd probably:
 
-Add proper error handling for the API call
-Include a loading indicator while memes are fetching
-Let users download the finished meme (would need canvas or a backend)
-Add keyboard support (Enter to get new image)
+- Add proper error handling for the API call
+- Include a loading indicator while memes are fetching
+- Let users download the finished meme (would need canvas or a backend)
+- Add keyboard support (Enter to get new image)
 
-Stack
+## Stack
+
 React 18, Vite, vanilla CSS
-
-Part of my React learning projects. I'm a junior developer building out my frontend skills—other projects in this series are in my repos.
-
-## Connect With Me
-
-I'm a Junior Java Developer transitioning into full-stack development. Follow my journey:
-
-- **GitHub**: 
-- **LinkedIn**: 
 
 ---
 
-*Built with ☕ and curiosity while learning React*
+Part of my React learning projects. I'm a junior developer building out my frontend skills—other projects in this series are in my [repositories](https://github.com/[your-username]?tab=repositories).
