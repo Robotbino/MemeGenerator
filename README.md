@@ -75,7 +75,7 @@ This is a common trick, you can't do a true text stroke in CSS that works everyw
 ## Running Locally
 
 ```bash
-git clone https://github.com/[your-username]/meme-generator.git
+git clone https://github.com/Robotbino/MemeGenerator.git
 cd meme-generator
 npm install
 npm run dev
