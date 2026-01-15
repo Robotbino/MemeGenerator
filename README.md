@@ -1,187 +1,61 @@
 # Meme Generator 🖼️
+A simple React app that pulls meme templates from the Imgflip API and lets you slap custom text on them.
 
-A React-based meme generator that allows users to create custom memes by adding text to randomly fetched images from the Imgflip API.
-
-## About This Project
-
-This project is part of my React learning journey from modified from Scrimba. I'm documenting my progress by building practical projects and pushing them to GitHub as I advance through core React concepts. Each project represents a milestone in understanding different aspects of the React ecosystem.
-
-## What I Learned
-
-### React Fundamentals
-
-**Component Architecture**
-- Breaking down the UI into reusable, modular components (`Header`, `Main`, `App`)
-- Understanding the parent-child relationship between components
-- Organising project structure with separate component files
-
-**JSX Syntax**
-- Writing HTML-like syntax within JavaScript
-- Embedding JavaScript expressions using curly braces `{}`
-- Handling className instead of class for styling
-
-### State Management with `useState`
-
-```jsx
-const [meme, setMeme] = useState({
+# Why I Built This
+I'm working through React fundamentals and this project hit several concepts I needed to get comfortable with: managing state across a form, fetching external data on component mount, and handling controlled inputs. It's not a complex app, but it forced me to actually understand how these pieces connect rather than just copying patterns.
+Technical Decisions
+State Structure
+I went with a single state object for the meme data instead of three separate useState calls:
+jsxconst [meme, setMeme] = useState({
     topText: "One does not simply",
     bottomText: "Walk into Mordor",
     imageUrl: "http://i.imgflip.com/1bij.jpg"
 })
-```
-
-**Key Takeaways:**
-- State is data that changes over time and triggers re-renders
-- The `useState` hook returns an array with the current state and a setter function
-- State should be updated immutably using the spread operator
-- Complex state can be stored as objects for related data
-
-### Side Effects with `useEffect`
-
-```jsx
-useEffect(() => {
-    fetch("https://api.imgflip.com/get_memes")
-        .then(res => res.json())
-        .then(data => setAllMemes(data.data.memes))
-}, [])
-```
-
-**Key Takeaways:**
-- `useEffect` handles operations outside React's rendering cycle (API calls, subscriptions, DOM manipulation)
-- The dependency array `[]` controls when the effect runs
-- An empty array means the effect runs once on mount
-- This is the standard pattern for fetching data when a component loads
-
-### Controlled Components & Forms
-
-```jsx
-<input
-    type="text"
-    name="topText"
-    onChange={handleChange}
-    value={meme.topText}
-/>
-```
-
-**Key Takeaways:**
-- React controls the input's value through state (single source of truth)
-- The `onChange` handler updates state on every keystroke
-- Using `name` attributes enables dynamic property updates with computed property names `[name]: value`
-
-### Event Handling
-
-```jsx
-function handleChange(event) {
+This made the update logic cleaner since topText, bottomText, and imageUrl are conceptually one thing—the current meme being edited. The tradeoff is slightly more verbose updates with the spread operator, but it keeps related data together.
+Form Handling
+Rather than writing separate handlers for each input, I used the name attribute to make one handler work for both:
+jsxfunction handleChange(event) {
     const {value, name} = event.currentTarget
     setMeme(prevMeme => ({
         ...prevMeme,
         [name]: value
     }))
 }
-```
+The computed property name [name] was new to me—it lets you dynamically set which property gets updated based on which input fired the event.
+Data Fetching
+The useEffect with an empty dependency array runs once when the component mounts. I store all the meme templates in state, then pick randomly from that array when the user clicks the button. This avoids hitting the API on every click.
+jsxuseEffect(() => {
+    fetch("https://api.imgflip.com/get_memes")
+        .then(res => res.json())
+        .then(data => setAllMemes(data.data.memes))
+}, [])
+No loading state or error handling here—something I'd add in a production app, but kept it minimal for learning purposes.
+The CSS
+The text overlay effect uses absolute positioning on the spans within a relative container. The text shadow creates that classic meme outline:
+csstext-shadow:
+    2px 2px 0 #000,
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    /* ... all 8 directions */
+This is a common trick—you can't do a true text stroke in CSS that works everywhere, so stacking shadows in every direction fakes it.
+Running Locally
+bashgit clone https://github.com/[your-username]/meme-generator.git
+cd meme-generator
+npm install
+npm run dev
+What I'd Do Differently
+If I revisited this, I'd probably:
 
-**Key Takeaways:**
-- Event handlers receive the synthetic event object
-- Destructuring extracts needed properties cleanly
-- Callback form of setState (`prevMeme => ...`) ensures updates based on the latest state
-- Spread operator preserves existing state while updating specific properties
+Add proper error handling for the API call
+Include a loading indicator while memes are fetching
+Let users download the finished meme (would need canvas or a backend)
+Add keyboard support (Enter to get new image)
 
-### Conditional Rendering & Dynamic Data
+Stack
+React 18, Vite, vanilla CSS
 
-- Rendering content based on state values
-- Mapping over arrays to display dynamic content
-- Updating the UI reactively when state changes
-
-## Features
-
-- **Random Meme Generation**: Fetches random meme templates from the Imgflip API
-- **Custom Text Overlay**: Add custom top and bottom text to any meme
-- **Real-time Preview**: See changes instantly as you type
-- **Responsive Design**: Works across different screen sizes
-
-## Tech Stack
-
-- **React 18** - UI library
-- **Vite** - Build tool and dev server
-- **CSS3** - Styling with Grid and Flexbox
-- **Imgflip API** - Meme template source
-
-## Project Structure
-
-```
-meme-generator/
-├── index.html
-├── index.jsx
-├── index.css
-├── App.jsx
-├── components/
-│   ├── Header.jsx
-│   └── Main.jsx
-└── images/
-    └── troll-face.png
-```
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository
-   ```bash
-   git clone https://github.com/yourusername/meme-generator.git
-   ```
-
-2. Navigate to the project directory
-   ```bash
-   cd meme-generator
-   ```
-
-3. Install dependencies
-   ```bash
-   npm install
-   ```
-
-4. Start the development server
-   ```bash
-   npm run dev
-   ```
-
-5. Open your browser and visit `http://localhost:5173`
-
-## How It Works
-
-1. On load, the app fetches meme templates from the Imgflip API
-2. Users enter custom text in the input fields
-3. Clicking "Get a new meme image" selects a random template
-4. The meme preview updates in real-time with the custom text overlay
-
-## My React Learning Path
-
-This project is part of my ongoing journey to become a full-stack developer. Here's where it fits in my learning progression:
-
-| Concept | Status |
-|---------|--------|
-| Components & Props | ✅ |
-| State & useState | ✅ |
-| Event Handling | ✅ |
-| useEffect & API Calls | ✅ |
-| Controlled Forms | ✅ |
-| Conditional Rendering | ✅ |
-| Context API | 🔄 Next |
-| Custom Hooks | 🔄 Upcoming |
-| React Router | 🔄 Upcoming |
-
-## Future Improvements
-
-- [ ] Add download functionality for created memes
-- [ ] Implement drag-and-drop text positioning
-- [ ] Add font size and colour customisation
-- [ ] Save favourite memes to local storage
-- [ ] Share directly to social media
+Part of my React learning projects. I'm a junior developer building out my frontend skills—other projects in this series are in my repos.
 
 ## Connect With Me
 
