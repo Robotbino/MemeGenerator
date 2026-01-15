@@ -4,7 +4,7 @@ A React-based meme generator that allows users to create custom memes by adding 
 
 ## About This Project
 
-This project is part of my React learning journey. I'm documenting my progress by building practical projects and pushing them to GitHub as I advance through core React concepts. Each project represents a milestone in understanding different aspects of the React ecosystem.
+This project is part of my React learning journey from modified from Scrimba. I'm documenting my progress by building practical projects and pushing them to GitHub as I advance through core React concepts. Each project represents a milestone in understanding different aspects of the React ecosystem.
 
 ## What I Learned
 
