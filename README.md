@@ -2,9 +2,8 @@
 
 A simple React app that pulls meme templates from the Imgflip API and lets you slap custom text on them.
 
-**Live Demo**: [Add your deployed link]
 
-![Screenshot of the app](screenshot.png)
+
 <img width="1914" height="848" alt="image" src="https://github.com/user-attachments/assets/f5fddc2a-a516-4c50-a2fb-9ac1ba08e3d7" />
 
 ---
