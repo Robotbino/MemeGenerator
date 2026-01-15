@@ -70,7 +70,7 @@ text-shadow:
     /* ... all 8 directions */
 ```
 
-This is a common trick—you can't do a true text stroke in CSS that works everywhere, so stacking shadows in every direction fakes it.
+This is a common trick, you can't do a true text stroke in CSS that works everywhere, so stacking shadows in every direction fakes it.
 
 ## Running Locally
 
@@ -96,4 +96,4 @@ React 18, Vite, vanilla CSS
 
 ---
 
-Part of my React learning projects. I'm a junior developer building out my frontend skills—other projects in this series are in my [repositories](https://github.com/[your-username]?tab=repositories).
+Part of my React learning projects. I'm a junior developer building out my frontend skills, other projects in this series are in my [repositories](https://github.com/[your-username]?tab=repositories).
