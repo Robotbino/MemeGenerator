@@ -96,4 +96,4 @@ React 18, Vite, vanilla CSS
 
 ---
 
-Part of my React learning projects. I'm a junior developer building out my frontend skills, other projects in this series are in my [repositories](https://github.com/[your-username]?tab=repositories).
+Part of my React learning projects. I'm a junior developer building out my frontend skills, other projects in this series are in my [repositories](https://github.com/Robotbino?tab=repositories).
