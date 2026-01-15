@@ -41,7 +41,7 @@ function handleChange(event) {
 }
 ```
 
-The computed property name `[name]` was new to me—it lets you dynamically set which property gets updated based on which input fired the event.
+The computed property name `[name]` was new to me, it lets you dynamically set which property gets updated based on which input fired the event.
 
 ### Data Fetching
 
